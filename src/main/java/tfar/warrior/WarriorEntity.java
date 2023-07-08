@@ -8,7 +8,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.world.Difficulty;
@@ -17,12 +16,14 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.entity.monster.*;
+import net.minecraft.world.entity.monster.AbstractIllager;
+import net.minecraft.world.entity.monster.CrossbowAttackMob;
+import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.monster.piglin.Piglin;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
@@ -42,7 +43,7 @@ public class WarriorEntity extends Zombie implements CrossbowAttackMob {
 
     private final RangedBowAttackGoal<WarriorEntity> bowGoal = new RangedBowAttackGoal<>(this, 1.0D, 20, 15.0F);
 
-    private final RangedCrossbowAttackGoal<WarriorEntity> crossbowGoal = new RangedCrossbowAttackGoal<>(this, 1.0D, 8.0F);
+    private final RangedCrossbowAttackGoal<WarriorEntity> crossbowGoal = new RangedXAttack<>(this, 1.0D, 8.0F);
 
     private final MeleeAttackGoal meleeGoal = new MeleeAttackGoal(this, 1.2D, false);
 
@@ -237,7 +238,8 @@ public class WarriorEntity extends Zombie implements CrossbowAttackMob {
         if (this.isChargingCrossbow()) {
             return WarriorPose.CROSSBOW_CHARGE;
         } else if (this.isHolding(is -> is.getItem() instanceof CrossbowItem)) {
-            return isAggressive() ? WarriorPose.CROSSBOW_HOLD : WarriorPose.CROSSBOW_HOLD;
+            boolean aggressive = isAggressive();
+            return aggressive ? WarriorPose.CROSSBOW_HOLD : WarriorPose.CROSSBOW_HOLD_IDLE;
         } else if (this.isHolding(is -> is.getItem() instanceof BowItem)) {
             return WarriorPose.BOW_AND_ARROW;
         } else if (this.isHolding(is -> is.getItem() instanceof TridentItem)) {
@@ -288,7 +290,7 @@ public class WarriorEntity extends Zombie implements CrossbowAttackMob {
         MELEE_ATTACK,
         MELEE_ATTACK_WEAPON,
         BOW_AND_ARROW,
-        //CROSSBOW_HOLD_IDLE,
+        CROSSBOW_HOLD_IDLE,
 
         CROSSBOW_HOLD,
         CROSSBOW_CHARGE,

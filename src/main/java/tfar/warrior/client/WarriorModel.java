@@ -103,7 +103,7 @@ public class WarriorModel extends HumanoidModel<WarriorEntity> {
                 break;
         }
 
-            if (warriorPose == WarriorEntity.WarriorPose.BOW_AND_ARROW)
+            if (warriorPose == WarriorEntity.WarriorPose.BOW_AND_ARROW || warriorPose == WarriorEntity.WarriorPose.CROSSBOW_HOLD_IDLE)
                 super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 
         if (warriorPose == WarriorEntity.WarriorPose.MELEE_ATTACK) {
@@ -120,5 +120,4 @@ public class WarriorModel extends HumanoidModel<WarriorEntity> {
             this.rightArm.xRot = -1.8F;
         }
     }
-
 }
