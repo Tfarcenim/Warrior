@@ -21,6 +21,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.RegisterEvent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
+import tfar.warrior.datagen.ModDatagen;
 
 import java.util.ArrayList;
 import java.util.List;
