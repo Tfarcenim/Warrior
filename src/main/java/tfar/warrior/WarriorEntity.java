@@ -301,7 +301,7 @@ public class WarriorEntity extends Zombie implements CrossbowAttackMob {
     public static final EntityType<WarriorEntity> WARRIOR = EntityType.Builder.of(WarriorEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F)
             .clientTrackingRange(8).build("warrior");
 
-    public static final Item WARRIOR_SPAWN_EGG = new SpawnEggItem(WARRIOR, 0x8ff1d7, 0x799c65,new Item.Properties().tab(CreativeModeTab.TAB_MISC));
+    public static final Item WARRIOR_SPAWN_EGG = new SpawnEggItem(WARRIOR, 0x995F40, 0x74A332,new Item.Properties().tab(CreativeModeTab.TAB_MISC));
 
     public static final TagKey<Biome> BIOMES = TagKey.create(Registry.BIOME_REGISTRY,new ResourceLocation(Warrior.MODID,"warrior_spawns"));
 
