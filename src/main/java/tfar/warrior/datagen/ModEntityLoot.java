@@ -1,7 +1,9 @@
 package tfar.warrior.datagen;
 
-import net.minecraft.data.loot.EntityLoot;
+import net.minecraft.data.loot.EntityLootSubProvider;
+import net.minecraft.data.loot.packs.VanillaEntityLoot;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -17,19 +19,19 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import tfar.warrior.WarriorEntity;
 
-import java.util.List;
+import java.util.stream.Stream;
 
-public class ModEntityLoot extends EntityLoot {
+public class ModEntityLoot extends VanillaEntityLoot {
 
     @Override
-    protected void addTables() {
+    public void generate() {
         this.add(WarriorEntity.WARRIOR, LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.LEATHER)
                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
                 .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))).withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(Items.IRON_INGOT)).add(LootItem.lootTableItem(Items.CARROT)).add(LootItem.lootTableItem(Items.POTATO).apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE)))).when(LootItemKilledByPlayerCondition.killedByPlayer()).when(LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.025F, 0.01F))));
     }
 
     @Override
-    protected Iterable<EntityType<?>> getKnownEntities() {
-        return List.of(WarriorEntity.WARRIOR);
+    protected Stream<EntityType<?>> getKnownEntityTypes() {
+        return Stream.of(WarriorEntity.WARRIOR);
     }
 }

@@ -20,7 +20,7 @@ public class WarriorRenderer extends HumanoidMobRenderer<WarriorEntity,WarriorMo
 
     public WarriorRenderer(EntityRendererProvider.Context pContext, ModelLayerLocation pZombieLayer, ModelLayerLocation pInnerArmor, ModelLayerLocation pOuterArmor) {
         super(pContext, new WarriorModel(pContext.bakeLayer(pZombieLayer)),.5f);
-        this.addLayer(new HumanoidArmorLayer<>(this, new WarriorModel(pContext.bakeLayer(pInnerArmor)), new WarriorModel(pContext.bakeLayer(pOuterArmor))));
+        this.addLayer(new HumanoidArmorLayer<>(this, new WarriorModel(pContext.bakeLayer(pInnerArmor)), new WarriorModel(pContext.bakeLayer(pOuterArmor)),pContext.getModelManager()));
     }
 
 

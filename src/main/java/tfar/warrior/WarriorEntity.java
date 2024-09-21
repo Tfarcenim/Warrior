@@ -1,6 +1,7 @@
 package tfar.warrior;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -121,20 +122,20 @@ public class WarriorEntity extends Zombie implements CrossbowAttackMob {
         double d1 = pTarget.getY(1/3D) - abstractarrow.getY();
         double d2 = pTarget.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        abstractarrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level.getDifficulty().getId() * 4));
+        abstractarrow.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
         this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.level.addFreshEntity(abstractarrow);
+        this.level().addFreshEntity(abstractarrow);
     }
 
     public void throwTrident(LivingEntity pTarget, float pDistanceFactor) {
-        ThrownTrident throwntrident = new ThrownTrident(this.level, this, new ItemStack(Items.TRIDENT));
+        ThrownTrident throwntrident = new ThrownTrident(this.level(), this, new ItemStack(Items.TRIDENT));
         double d0 = pTarget.getX() - this.getX();
         double d1 = pTarget.getY(1/3D) - throwntrident.getY();
         double d2 = pTarget.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        throwntrident.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level.getDifficulty().getId() * 4));
+        throwntrident.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
         this.playSound(SoundEvents.DROWNED_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.level.addFreshEntity(throwntrident);
+        this.level().addFreshEntity(throwntrident);
     }
 
 
@@ -169,7 +170,7 @@ public class WarriorEntity extends Zombie implements CrossbowAttackMob {
     }
 
     public void reassessWeaponGoal() {
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.goalSelector.removeGoal(this.meleeGoal);
             this.goalSelector.removeGoal(this.bowGoal);
             this.goalSelector.removeGoal(this.crossbowGoal);
@@ -177,7 +178,7 @@ public class WarriorEntity extends Zombie implements CrossbowAttackMob {
             ItemStack itemstack = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, item -> (item instanceof BowItem || item instanceof CrossbowItem || item instanceof TridentItem)));
             if (itemstack.is(Items.BOW)) {
                 int i = 20;
-                if (this.level.getDifficulty() != Difficulty.HARD) {
+                if (this.level().getDifficulty() != Difficulty.HARD) {
                     i = 40;
                 }
 
@@ -201,7 +202,7 @@ public class WarriorEntity extends Zombie implements CrossbowAttackMob {
 
     public void setItemSlot(EquipmentSlot pSlot, ItemStack pStack) {
         super.setItemSlot(pSlot, pStack);
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             this.reassessWeaponGoal();
         }
 
@@ -301,8 +302,8 @@ public class WarriorEntity extends Zombie implements CrossbowAttackMob {
     public static final EntityType<WarriorEntity> WARRIOR = EntityType.Builder.of(WarriorEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F)
             .clientTrackingRange(8).build("warrior");
 
-    public static final Item WARRIOR_SPAWN_EGG = new SpawnEggItem(WARRIOR, 0x995F40, 0x74A332,new Item.Properties().tab(CreativeModeTab.TAB_MISC));
+    public static final Item WARRIOR_SPAWN_EGG = new SpawnEggItem(WARRIOR, 0x995F40, 0x74A332,new Item.Properties());
 
-    public static final TagKey<Biome> BIOMES = TagKey.create(Registry.BIOME_REGISTRY,new ResourceLocation(Warrior.MODID,"warrior_spawns"));
+    public static final TagKey<Biome> BIOMES = TagKey.create(Registries.BIOME,new ResourceLocation(Warrior.MODID,"warrior_spawns"));
 
 }

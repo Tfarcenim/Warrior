@@ -3,6 +3,8 @@ package tfar.warrior;
 import com.google.common.collect.Lists;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.util.random.WeightedRandomList;
@@ -50,8 +52,8 @@ public class Warrior {
     }
 
     private void register(RegisterEvent e) {
-        e.register(Registry.ENTITY_TYPE_REGISTRY,new ResourceLocation(MODID,MODID),() -> WarriorEntity.WARRIOR);
-        e.register(Registry.ITEM_REGISTRY,new ResourceLocation(MODID,"warrior_spawn_egg"),() -> WarriorEntity.WARRIOR_SPAWN_EGG);
+        e.register(Registries.ENTITY_TYPE,new ResourceLocation(MODID,MODID),() -> WarriorEntity.WARRIOR);
+        e.register(Registries.ITEM,new ResourceLocation(MODID,"warrior_spawn_egg"),() -> WarriorEntity.WARRIOR_SPAWN_EGG);
     }
 
     private void attribute(EntityAttributeCreationEvent e) {
@@ -93,7 +95,7 @@ public class Warrior {
             List<WeightedEntry.Wrapper<Item>> wrappers = new ArrayList<>();
             for (String s :ServerConfig.weapon_list.get() ) {
                 String[] strings = s.split("\\|");
-                Item item = Registry.ITEM.get(new ResourceLocation(strings[0]));
+                Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(strings[0]));
                 int i = Integer.parseInt(strings[1]);
                 wrappers.add(WeightedEntry.wrap(item,i));
             }
