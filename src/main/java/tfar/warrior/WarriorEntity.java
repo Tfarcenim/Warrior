@@ -1,6 +1,5 @@
 package tfar.warrior;
 
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -80,13 +79,18 @@ public class WarriorEntity extends Zombie implements CrossbowAttackMob {
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, Turtle.class, 10, true, false, Turtle.BABY_ON_LAND_SELECTOR));
+
+        this.targetSelector.addGoal(3,new NearestAttackableTargetGoal<>(this, Mob.class, true,living -> living.getMobType() == MobType.ARTHROPOD));
     }
 
     protected void addBehaviourGoals() {
 
     }
 
-
+    @Override
+    protected boolean isSunSensitive() {
+        return Warrior.ServerConfig.burns_in_sunlight.get();
+    }
 
     @Override
     protected void defineSynchedData() {

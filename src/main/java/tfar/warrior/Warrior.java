@@ -72,6 +72,7 @@ public class Warrior {
 
     public static class ServerConfig {
         public static ForgeConfigSpec.ConfigValue<List<String>> weapon_list;
+        public static ForgeConfigSpec.BooleanValue burns_in_sunlight;
 
         public static final List<String> defaults = Lists.newArrayList(
                 "crossbow|1",
@@ -84,6 +85,7 @@ public class Warrior {
             weapon_list = builder.
                     comment("weighted list of spawned weapons [item|weight]")
                     .define("weapon_list", defaults);
+            burns_in_sunlight = builder.define("burns_in_sunlight",false);
             builder.pop();
         }
     }

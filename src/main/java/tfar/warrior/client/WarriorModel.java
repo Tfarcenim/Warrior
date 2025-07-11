@@ -43,8 +43,14 @@ public class WarriorModel extends HumanoidModel<WarriorEntity> {
     public void setupAnim(WarriorEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         WarriorEntity.WarriorPose warriorPose = pEntity.getArmPose();
 
+        if (warriorPose == WarriorEntity.WarriorPose.NEUTRAL) {
+            super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
+            return;
+        }
+
         this.head.yRot = pNetHeadYaw * (float) Math.PI / 180F;
         this.head.xRot = pHeadPitch * (float) Math.PI / 180F;
+
 
       //  if (false)
             if (this.riding) {
